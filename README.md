@@ -107,7 +107,7 @@ For EpicKitchen or equivalent large-scale pre-training, we suggest using config 
 ```
 python train_liv.py  training=pretrain dataset=epickitchen
 ```
-Each training run will generate a run folder under ``train_liv_realrobot`` and the reward curves for intermediate model snapshots will be saved in ``\reward_curves`` of the run folder. 
+Each training run will generate a training run folder under ``train_liv_realrobot`` and the reward curves for intermediate model snapshots will be saved in ``\reward_curves`` of the run folder. 
 
 ## Multi-Modal Reward Curve Generation
 We can use the same training code to also only generate the (animated) reward curves by setting ``eval=True`` 
@@ -119,6 +119,10 @@ We can also specify a model path (e.g., ``snapshot.pt`` saved in a run folder) a
 ```
 python train_liv.py eval=True load_snap=PATH_TO_LIV_MODEL dataset=realrobot animate=True 
 ```
+In the run folder, you should see animated reward curves like the following:
+<p float="left">
+<img src="liv/assets/liv_finetuned_appleinblackpot.gif" width="800">
+</p>
 
 ## License
 
