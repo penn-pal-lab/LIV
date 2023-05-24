@@ -1,0 +1,44 @@
+defaults:
+  - _self_
+  - training: finetune
+  - dataset: realrobot
+  - override hydra/launcher:  local
+  - override hydra/output:  local
+
+# snapshot
+eval: False
+save_snapshot: false
+load_snap: "liv" # change to "" to use CLIP instead of pre-trained LIV
+
+# misc
+seed: 1
+device: cuda
+
+# experiment
+logging: False
+animate: False 
+experiment: liv
+# wandbproject: liv
+# wandbuser: ??
+
+# data
+doaug: "rctraj"
+alpha: 0.95
+
+agent:
+  _target_: liv.LIV
+  scratch: False         # initialize with random or CLIP weights
+  grad_text: True 
+  metric: cos
+  device: ${device}
+  lr: 1e-5
+  weight_decay: 0.001 
+  modelid: RN50
+  clipweight: 1.
+  visionweight: 1.
+  langweight: 0.
+  gamma: 0.98
+  num_negatives: 0
+
+trainer:
+  _target_: liv.trainer.Trainer

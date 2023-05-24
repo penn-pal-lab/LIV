@@ -1,0 +1,17 @@
+vipoutput/
+*.egg-info
+__pycache__/
+.nfs*
+# *.jpg
+# *.png 
+# *.gif
+plots
+outputs
+logs
+clean_model.py
+liv_release
+train_liv_realrobot
+train_liv_epickitchen
+example_util
+clean_dataset.py
+realrobot

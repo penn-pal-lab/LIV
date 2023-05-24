@@ -1,0 +1,9 @@
+# @package _global_
+dataset: epickitchen
+# Change path to where https://github.com/epic-kitchens/epic-kitchens-100-annotations is installed on your machine
+datapath_train: /Datasets/jasonyma/epic-kitchens-100-annotations/
+
+wandbproject: epickitchen
+hydra:
+    job:
+        name: 'train_liv_epickitchen'

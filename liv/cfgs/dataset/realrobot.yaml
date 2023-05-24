@@ -1,0 +1,8 @@
+# @package _global_
+dataset: realrobot
+datapath_train: ~/liv/liv/dataset/realrobot
+
+wandbproject: liv_finetune_realrobot
+hydra:
+    job:
+        name: 'train_liv_realrobot'

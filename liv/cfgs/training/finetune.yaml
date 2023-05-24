@@ -1,0 +1,16 @@
+# @package _global_
+num_workers: 8
+batch_size: 64
+train_steps: 10001
+eval_freq: 1000
+
+num_demos: 10000
+
+agent:
+  clipweight: 1.0
+  visionweight: 1.0
+  langweight: 0.0
+  metric: cos 
+  num_negatives: 0
+  lr: 1e-5
+  
