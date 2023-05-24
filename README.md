@@ -8,7 +8,7 @@ International Conference on Machine Learning (ICML), 2023
 
 This is the official repository for LIV, an algorithm for pre-training, fine-tuning, and reward learning for language-conditioned robotic control. This repository contains examples for using the pre-trained LIV model as well as training LIV from scratch using any custom video dataset.
 
-<img src="liv/assets/liv_concept.png">
+<img src="liv/assets/liv_concept.gif">
 
 ## Table of Contents  
 [Installation](#installation)  
