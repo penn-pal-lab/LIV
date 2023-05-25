@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Language-Image Value Learning (LIV) is a unified algorithm for pre-training and fine-tuning vision-language representations and rewards for language-conditioned robotic control.">
+  <meta name="keywords" content="pre-training, representation learning, reward learning, robot learning, vision-language, reinforcement learning, imitation learning">
+  <meta property="og:image" content="./static/images/peg_preview.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LIV</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0GWRL87RE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-E0GWRL87RE');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://www.seas.upenn.edu/~jasonyma/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://sites.google.com/view/vip-rl">
+            VIP: Large-Scale Value Pre-Training (ICLR 2023)
+          </a>
+          <a class="navbar-item" href="https://jasonma2016.github.io/GoFAR/">
+            GoFAR: Offline Goal-Conditioned RL (NeurIPS 2022)
+          </a>
+          <a class="navbar-item" href="https://sites.google.com/view/smodice/home">
+            SMODICE: Offline Imitation Learning (ICML 2022)
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            LIV: Language-Image Representations and Rewards for Robotic Control </h1>
+            <h2 class="title is-2 publication-title">
+              ICML 2023 </h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://www.seas.upenn.edu/~jasonyma/">Jason Ma</a><sup>1</sup>,</span>
+            <!-- <span class="author-block">
+              <a href="https://www.seas.upenn.edu/~wjhliang/">Will Liang</a><sup>1</sup>,
+            </span> -->
+            <span class="author-block">
+              <a href="https://vikashplus.github.io/">Vikash Kumar</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://amyzhang.github.io/">Amy Zhang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://obastani.github.io/">Osbert Bastani</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.seas.upenn.edu/~dineshj/">Dinesh Jayaraman</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Pennsylvania,</span>
+            <span class="author-block"><sup>2</sup>FAIR, Meta AI</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a target="_blank" href="./static/liv_paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a target="_blank" href="https://arxiv.org/abs/2210.00030"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv (coming soon!)</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a target="_blank" href="https://openreview.net/pdf?id=djJLvSur1jZ"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://github.com/penn-pal-lab/LIV"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/penn-pal-lab/LIV/blob/main/liv/dataset/README.md"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Dataset</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- <img width="100%" height="100%" src="./static/videos/LIV_concept.gif" /> -->
+      <video id="matting-video" autoplay muted loop controls playsinline width="100%" >
+        <source src="./static/videos/LIV_concept.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 style="text-align:left" class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            <b>How can we pre-train and fine-tune a multi-modal representation suitable for language-conditioned robotics manipulation and reward specification?</b>
+          </p>
+
+          <p>
+            We present <b>L</b>anguage-<b>I</b>mage <b>V</b>alue learning (LIV), a unified objective for vision-language representation and reward learning from action-free videos with text annotations. Exploiting a novel connection between dual reinforcement learning and mutual information contrastive learning, LIV proposes a simple and effective objective that learns a multi-modal representation that implicitly encodes a goal-conditioned value function that can express goals in all modalities. We use LIV to pre-train the first control-centric vision-language representation from large human video datasets such as EpicKitchen with no action information. This pre-trained LIV model can perform zero-shot language-conditioned reward specification on unseen human and robot videos alike. Then, with access to target domain data, the very same objective consistently improves this pre-trained LIV model as well as other pre-existing vision-language representations for improved language-conditioned reward specification and robotic control. On two simulated and one real-world robot environments that evaluate vision-language representations and rewards, LIV pre-trained and fine-tuned models consistently outperform the best prior approaches, establishing the advantages of joint vision-language representation and reward learning within its unified, compact framework. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="preload; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 style="text-align:left" class="title is-3">LIV Zero-Shot Multi-Modal Reward</h2>
+        <div class="content has-text-justified">
+        After pre-training on text-annotated human videos from <a href="https://epic-kitchens.github.io/2023">EpicKitchen</a>, LIV can produce multi-modal dense rewards with respect to both image goal and language goal on unseen human and robot videos.
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 style="text-align:left" class="title is-4">Unseen Human Videos</h2>
+        <div class="content has-text-justified">
+        We first visualize pre-trained LIV's multi-modal values on unseen EpicKitchen videos; for each video, we use its last frame as the image goal and the provided text
+         annotation as the language goal. <b>The y-axis is the negative value, so the more negative the higher the value computed using the current frame and the provided goal.</b>
+        </div>
+      </div>
+    </div>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_human_videos/0_epickitchen_open-microwave_3.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_human_videos/0_epickitchen_open-microwave_4.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_human_videos/0_epickitchen_open-door_3.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_human_videos/0_epickitchen_open-cabinet_3.mp4" type="video/mp4">
+    </video>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Unseen Robot Videos</h3>
+        <div class="content has-text-justified">
+        We also test LIV's zero-shot rewards on unseen robot videos from <a href="https://human2robot.github.io/">WHIRL</a>.
+        LIV rewards are able to generalize to unseen robot domains and embodiments without ever being trained on them.    
+        </div>
+      </div>
+    </div>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_hat.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_object.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_door_close.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_dishwasher_open.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_fridge_open.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos/reward_curve_fridge_close.mp4" type="video/mp4">
+    </video>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">LIV Reward for Action Recognition</h3>
+        <div class="content has-text-justified">
+          As a corollary of LIV's zero-shot language-reward capability, when the video contains actions that induce opposite object state changes (e.g., open and close dishwasher),
+           LIV's rewards can accurately identify when these actions have occured in the video with the inverted progression that appear in the middle of the reward curves. 
+        </div>
+      </div>
+    </div>
+    <video id="matting-video" preload muted loop controls playsinline width="33%" >
+      <source src="./static/videos/unseen_robot_videos_long/reward_curve_dishwasher.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="33%" >
+      <source src="./static/videos/unseen_robot_videos_long/reward_curve_toaster.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="33%" >
+      <source src="./static/videos/unseen_robot_videos_long/reward_curve_fridge.mp4" type="video/mp4">
+    </video>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column ">
+        <h3 style="text-align:left" class="title is-4">How can I generate LIV reward curves on my own videos?</h3>
+        <div class="content has-text-justified">
+        This is quite easy! Try out our <a href="https://github.com/penn-pal-lab/LIV/blob/main/liv/examples/liv_example.py">example code</a> to generate LIV multi-modal reward curves on your own videos!
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Failure Cases</h3>
+        <div class="content has-text-justified">
+        Due to the inherent language grounding and visual domain gaps, LIV zero-shot rewards do not always work on unseen robot domains and tasks. 
+        Later, we will show how the LIV objective itself is a very effective fine-tuner, enabling pre-trained LIV as well as other VLMs (e.g., CLIP) to overcome
+        the distribution shift and learn structured representations that both preserve semantic alignment and temporal coherence. 
+        </div>
+      </div>
+    </div>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos_failure/reward_curve_drawer_open.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" autoplay muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos_failure/reward_curve_hang.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos_failure/0_realrobot_apple-in-tray_0.mp4" type="video/mp4">
+    </video>
+    <video id="matting-video" preload muted loop controls playsinline width="49%" >
+      <source src="./static/videos/unseen_robot_videos_failure/0_realrobot_apple-in-tray_0.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column ">
+        <h2 style="text-align:left" class="title is-3">LIV as Representation for Language-Conditioned BC</h2>
+        <div class="content has-text-justified">
+          We use LIV's frozen multi-modal representation as backbone for LCBC and achieve impressive performance (<b>46% success rate, absolute ~30% better than the second best baseline</b>)
+           on a challenging real-world muli-task environment with wide initial state distribution (visualized below). 
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Environment Description</h3>
+        <div class="content has-text-justified">
+          The real-world environment  consists of a table-top toy kitchen setup, in which a Franka robot
+          is tasked with placing various fruits (apple, pear,
+          pineapple) to various containers, (tray, black
+          pot, green pot) in the scene given a sentence task
+          description (e.g., apple in black pot). For each collected demonstration and evaluation episode, the fruits are randomly placed in the center of the workspace:
+        </div>
+      </div>
+    </div>
+
+    <div class="content has-text-centered">
+    <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+      <source src="./static/videos/realrobot_results/initialstate.mp4"
+              type="video/mp4">
+    </video>
+    </div>
+
+    Below, we visualize all successful LIV-LCBC episodes by task.
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Pineapple in Black Pot (8/10)</h3>
+      </div>
+      </div>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/1_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/2_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/3_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/4_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/5_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/6_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/7_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" autoplay controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_black_pot/8_converted.mp4"
+                type="video/mp4">
+      </video>
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h3 style="text-align:left" class="title is-4">Pineapple in Green Pot (6/10) </h3>
+        </div>
+      </div>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/1_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/2_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/3_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/4_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/5_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_green_pot/6_converted.mp4"
+                type="video/mp4">
+      </video>
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h3 style="text-align:left" class="title is-4">Pineapple in Tray (5/10)</h3>
+        </div>
+      </div>
+        <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_tray/1_converted.mp4"
+                type="video/mp4">
+      </video>
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_tray/2_converted.mp4"
+                type="video/mp4">
+      </video>
+  
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_tray/3_converted.mp4"
+                type="video/mp4">
+      </video>
+  
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_tray/4_converted.mp4"
+                type="video/mp4">
+      </video>
+  
+      <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+        <source src="./static/videos/realrobot_results/pineapple_in_tray/5_converted.mp4"
+                type="video/mp4">
+      </video>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Apple in Black Pot (4/10)</h3>
+      </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_black_pot/1_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_black_pot/2_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_black_pot/3_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_black_pot/4_converted.mp4"
+              type="video/mp4">
+    </video>
+    <div class="columns is-centered has-text-centered">
+    <div class="column">
+      <h3 style="text-align:left" class="title is-4">Apple in Green Pot (3/10)</h3>
+    </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_green_pot/1_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_green_pot/2_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_green_pot/3_converted.mp4"
+              type="video/mp4">
+    </video>
+    <div class="columns is-centered has-text-centered">
+    <div class="column">
+      <h3 style="text-align:left" class="title is-4">Apple in Tray (5/10)</h3>
+    </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_tray/1_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_tray/2_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_tray/3_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_tray/4_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/apple_in_tray/5_converted.mp4"
+              type="video/mp4">
+    </video>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Pear in Black Pot (4/10) </h3>
+      </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_black_pot/1_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_black_pot/2_converted.mp4"
+              type="video/mp4">
+    </video>    
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_black_pot/3_converted.mp4"
+              type="video/mp4">
+    </video>    
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_black_pot/4_converted.mp4"
+              type="video/mp4">
+    </video>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Pear in Green Pot (3/10) </h3>
+      </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_green_pot/2_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_green_pot/3_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_green_pot/4_converted.mp4"
+              type="video/mp4">
+    </video>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h3 style="text-align:left" class="title is-4">Pear in Tray (3/10) </h3>
+      </div>
+    </div>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_tray/1_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_tray/2_converted.mp4"
+              type="video/mp4">
+    </video>
+    <video id="dollyzoom" preload controls muted loop playsinline width="24.5%" height="100%">
+      <source src="./static/videos/realrobot_results/pear_in_tray/3_converted.mp4"
+              type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 style="text-align:left" class="title is-3">Zero-Shot Generalization to Long-Horizon Composite Tasks</h2>
+        <div class="content has-text-justified">
+ LIV-LCBC is able to consistently achieve partial successes (i.e., solving at least 2 out of 3 tasks in the specified sequences) on long-horizon, composite tasks that require solving the atomic
+          tasks in some specified sequences. We note that the RealRobot dataset contains only
+          demonstrations for the short-horizon, atomic tasks, and the demonstrations are never collected in configurations where some
+          fruits have already been placed into some containers. As such, solving more than one task strictly requires the policy to
+          generalize to unseen tabletop configuration, as success for an earlier task will change the scene into a novel configuration for
+          the later tasks. 
+        </div>
+      </div>
+    </div>
+    <video id="dollyzoom" autoplay controls muted loop playsinline width="33%" height="100%">
+      <source src="./static/videos/realrobot_results/long_horizon/pineappleintray_appleintray_pearintray.mp4"
+              type="video/mp4">
+    </video>  
+    <video id="dollyzoom" autoplay controls muted loop playsinline width="33%" height="100%">
+      <source src="./static/videos/realrobot_results/long_horizon/pineappleinblackpot_appleintray.mp4"
+              type="video/mp4">
+    </video>  
+    <video id="dollyzoom" autoplay controls muted loop playsinline width="33%" height="100%">
+      <source src="./static/videos/realrobot_results/long_horizon/pineappleintray_appleingreenpot.mp4"
+              type="video/mp4">
+    </video>  
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 style="text-align:left" class="title is-3">LIV Few-Shot Fine-Tuning</h2>
+        <div class="content has-text-justified">
+        The pre-trained LIV necessarily faces language grounding and visual domain gaps on out-of-distribution target domains and its rewards do not always work.
+         We show how the LIV objective is also an effective fine-tuning algorithm that can improve the <b>semantic alignment</b> as well as the <b>temporal smoothness</b> of pre-trained vision-language
+          representations for the downstream robot domain. Below, we demonstrate how LIV fine-tuning can improve both the quality of LIV rewards and the LCBC policy trained with LIV backbone.
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 style="text-align:left" class="title is-3">LIV Multi-Modal Reward Comparison (Pre-Trained vs. Fine-Tuned)</h2>
+      <div class="content has-text-justified">
+        In the first row, we present the average reward curves on all FrankaKitchen tasks for the pre-trained LIV model (Left) and successive LIV checkpoints during fine-tuning.
+        As shown, as fine-tuning goes on, the fine-tuned LIV gradually improves in temporal smoothness while aligning the two modalities. 
+
+        The next few rows qualitatively compare the reward curves on task demonstrations in our real-world dataset.
+      </div>
+    </div>
+
+    </div>
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <h2 class="title is-3">LIV (Pre-Trained)</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+        
+            <img src="./static/videos/finetuning_dynamics/liv_pretrained.png">
+        <video id="dollyzoom" autoplay controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/finetuning_reward_comparison/pretrained/0_realrobot_apple-in-black-pot_0.mp4"
+                  type="video/mp4">
+        </video>
+        <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/finetuning_reward_comparison/pretrained/0_realrobot_pear-in-green-pot_0.mp4"
+                  type="video/mp4">
+        </video>
+        <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/finetuning_reward_comparison/pretrained/0_realrobot_pineapple-in-tray_0.mp4"
+                  type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <h2 class="title is-3">LIV (LIV Fine-Tuned)</h2>
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="dollyzoom" autoplay controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/finetuning_dynamics/liv_finetune_progression.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" autoplay controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/finetuning_reward_comparison/finetuned/10000_realrobot_apple-in-black-pot_0.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/finetuning_reward_comparison/finetuned/10000_realrobot_pear-in-green-pot_0.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/finetuning_reward_comparison/finetuned/10000_realrobot_pineapple-in-tray_0.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="columns is-centered has-text-centered">
+    <div class="column">
+      <h2 style="text-align:left" class="title is-3">LIV LCBC Comparison (Pre-Trained vs. Fine-Tuned)</h2>
+    </div>
+  </div>
+
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <h2 class="title is-3">LIV (Pre-Trained)</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+        <video id="dollyzoom" autoplay controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/realrobot_results/comparison/liv_pretrained/appleingreenpot.mp4"
+                  type="video/mp4">
+        </video>
+        <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/realrobot_results/comparison/liv_pretrained/pineappleintray.mp4"
+                  type="video/mp4">
+        </video>
+        <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+          <source src="./static/videos/realrobot_results/comparison/liv_pretrained/pearinblackpot.mp4"
+                  type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <h2 class="title is-3">LIV (LIV Fine-Tuned)</h2>
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="dollyzoom" autoplay controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/realrobot_results/comparison/liv_finetuned/appleingreenpot.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/realrobot_results/comparison/liv_finetuned/pineappleintray.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" preload controls muted loop playsinline width="100%" height="100%">
+            <source src="./static/videos/realrobot_results/comparison/liv_finetuned/pearinblackpot.mp4"
+                    type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{ma2023liv,
+  author    = {Ma, Yecheng Jason and Kumar, Vikash and Zhang, Amy and Bastani, Osbert and Jayaraman, Dinesh},
+  title     = {LIV: Language-Image Representations and Rewards for Robotic Control},
+  journal   = {ICML},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/liv_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/JasonMa2016" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Template taken from <a
+              href="https://github.com/nerfies/nerfies.github.io">here</a>.
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
