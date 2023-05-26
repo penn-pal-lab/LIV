@@ -1,6 +1,6 @@
 # LIV: Language-Image Representations and Rewards for Robotics Control
 International Conference on Machine Learning (ICML), 2023
-#### [[Project Page]]() [[Paper]]() [[Dataset]](liv/dataset/README.md) 
+#### [[Project Page]](https://penn-pal-lab.github.io/LIV) [[Paper]](https://www.seas.upenn.edu/~jasonyma/liv_paper.pdf) [[Dataset]](liv/dataset/README.md) 
 
 [Jason Yecheng Ma](https://www.seas.upenn.edu/~jasonyma/)<sup>1</sup>, [Vikash Kumar](https://vikashplus.github.io/)<sup>2</sup>, [Amy Zhang](https://amyzhang.github.io/)<sup>2</sup>, [Osbert Bastani](https://obastani.github.io/)<sup>1</sup>, [Dinesh Jayaraman](https://www.seas.upenn.edu/~dineshj/)<sup>1</sup>
 
