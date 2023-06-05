@@ -124,9 +124,21 @@ In the run folder, you should see animated reward curves like the following:
 <img src="liv/assets/liv_finetuned_appleinblackpot.gif" width="800">
 </p>
 
+
 ## License
 
 The source code in this repository is licensed under the CC BY-NC 4.0 License.
+
+## Citation
+If you find this repository or paper useful for your research, please cite
+```
+@article{ma2023liv,
+  title={LIV: Language-Image Representations and Rewards for Robotic Control},
+  author={Ma, Yecheng Jason and Liang, William and Som, Vaidehi and Kumar, Vikash and Zhang, Amy and Bastani, Osbert and Jayaraman, Dinesh},
+  journal={arXiv preprint arXiv:2306.00958},
+  year={2023}
+}
+```
 
 ## Ackowledgements
 
