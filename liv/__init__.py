@@ -2,9 +2,9 @@ import os
 from os.path import expanduser
 import omegaconf
 import hydra
+from huggingface_hub import hf_hub_download
 import gdown
 import torch
-from torch.hub import load_state_dict_from_url
 import copy
 from liv.models.model_liv import LIV
 
@@ -29,13 +29,18 @@ def load_liv(modelid='resnet50'):
     folderpath = os.path.join(home, modelid)
     modelpath = os.path.join(home, modelid, "model.pt")
     configpath = os.path.join(home, modelid, "config.yaml")
-    
-    # Default download from PyTorch
-    modelurl = 'https://drive.google.com/uc?id=1l1ufzVLxpE5BK7JY6ZnVBljVzmK5c4P3'
-    configurl = 'https://drive.google.com/uc?id=1GWA5oSJDuHGB2WEdyZZmkro83FNmtaWl'
+
     if not os.path.exists(modelpath):
-        gdown.download(modelurl, modelpath, quiet=False)
-        gdown.download(configurl, configpath, quiet=False)
+        try:
+            # Default download from GDown
+            modelurl = 'https://drive.google.com/uc?id=1l1ufzVLxpE5BK7JY6ZnVBljVzmK5c4P3'
+            configurl = 'https://drive.google.com/uc?id=1GWA5oSJDuHGB2WEdyZZmkro83FNmtaWl'
+            gdown.download(modelurl, modelpath, quiet=False)
+            gdown.download(configurl, configpath, quiet=False)
+        except:
+            # More reliable download from HuggingFace Hub
+            hf_hub_download(repo_id="jasonyma/LIV", filename="model.pt", local_dir=folderpath)
+            hf_hub_download(repo_id="jasonyma/LIV", filename="config.yaml", local_dir=folderpath)
 
     modelcfg = omegaconf.OmegaConf.load(configpath)
     cleancfg = cleanup_config(modelcfg)
@@ -44,3 +49,4 @@ def load_liv(modelid='resnet50'):
     state_dict = torch.load(modelpath, map_location=torch.device(device))['liv']
     rep.load_state_dict(state_dict)
     return rep    
+

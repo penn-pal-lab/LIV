@@ -26,6 +26,7 @@ setup(
         'matplotlib',
         'flatten_dict',
         'gdown', 
+        'huggingface_hub',
         'tabulate',
         'pandas',
         'scipy',
