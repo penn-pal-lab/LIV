@@ -32,15 +32,15 @@ def load_liv(modelid='resnet50'):
 
     if not os.path.exists(modelpath):
         try:
-            # Default download from GDown
+            # Default reliable download from HuggingFace Hub
+            hf_hub_download(repo_id="jasonyma/LIV", filename="model.pt", local_dir=folderpath)
+            hf_hub_download(repo_id="jasonyma/LIV", filename="config.yaml", local_dir=folderpath)
+        except:
+            # Download from GDown
             modelurl = 'https://drive.google.com/uc?id=1l1ufzVLxpE5BK7JY6ZnVBljVzmK5c4P3'
             configurl = 'https://drive.google.com/uc?id=1GWA5oSJDuHGB2WEdyZZmkro83FNmtaWl'
             gdown.download(modelurl, modelpath, quiet=False)
             gdown.download(configurl, configpath, quiet=False)
-        except:
-            # More reliable download from HuggingFace Hub
-            hf_hub_download(repo_id="jasonyma/LIV", filename="model.pt", local_dir=folderpath)
-            hf_hub_download(repo_id="jasonyma/LIV", filename="config.yaml", local_dir=folderpath)
 
     modelcfg = omegaconf.OmegaConf.load(configpath)
     cleancfg = cleanup_config(modelcfg)
