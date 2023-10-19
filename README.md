@@ -127,7 +127,7 @@ In the run folder, you should see animated reward curves like the following:
 
 ## License
 
-The source code in this repository is licensed under the CC BY-NC 4.0 License.
+The source code in this repository is licensed under the MIT License.
 
 ## Citation
 If you find this repository or paper useful for your research, please cite
